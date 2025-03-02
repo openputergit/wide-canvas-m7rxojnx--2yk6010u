@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پالتو جانور مارکیٹ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Nastaliq Urdu', serif;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-teal-600 text-white p-4 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">پالتو جانور مارکیٹ</h1>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-teal-200"><i class="bi bi-cart3"></i> کارٹ</a>
+                <a href="#" class="hover:text-teal-200"><i class="bi bi-person-circle"></i> اکاؤنٹ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Section -->
+    <div class="container mx-auto p-4">
+        <div class="flex gap-2">
+            <input type="text" placeholder="تلاش کریں..." class="w-full p-2 border rounded-lg" id="searchInput">
+            <button class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700">
+                تلاش
+            </button>
+        </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold mb-4">اقسام</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button class="category-btn bg-white p-4 rounded-lg shadow hover:shadow-lg text-center" data-category="cats">
+                <i class="bi bi-cat text-3xl text-teal-600"></i>
+                <p class="mt-2">بلیاں</p>
+            </button>
+            <button class="category-btn bg-white p-4 rounded-lg shadow hover:shadow-lg text-center" data-category="dogs">
+                <i class="bi bi-emoji-smile text-3xl text-teal-600"></i>
+                <p class="mt-2">کتے</p>
+            </button>
+            <button class="category-btn bg-white p-4 rounded-lg shadow hover:shadow-lg text-center" data-category="birds">
+                <i class="bi bi-twitter text-3xl text-teal-600"></i>
+                <p class="mt-2">پرندے</p>
+            </button>
+            <button class="category-btn bg-white p-4 rounded-lg shadow hover:shadow-lg text-center" data-category="products">
+                <i class="bi bi-box-seam text-3xl text-teal-600"></i>
+                <p class="mt-2">پروڈکٹس</p>
+            </button>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-bold mb-4">دستیاب جانور</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4" id="productsGrid">
+            <!-- Products will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Add New Item Button -->
+    <button class="fixed bottom-6 left-6 bg-teal-600 text-white p-4 rounded-full shadow-lg hover:bg-teal-700">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+
+    <script>
+        // Sample data
+        const products = [
+            {
+                id: 1,
+                name: "پرشین بلی",
+                category: "cats",
+                price: "50000",
+                image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&h=300"
+            },
+            {
+                id: 2,
+                name: "جرمن شیپرڈ",
+                category: "dogs",
+                price: "45000",
+                image: "https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?auto=format&fit=crop&w=400&h=300"
+            },
+            {
+                id: 3,
+                name: "طوطا",
+                category: "birds",
+                price: "15000",
+                image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=400&h=300"
+            },
+            {
+                id: 4,
+                name: "پالتو جانور کی خوراک",
+                category: "products",
+                price: "2500",
+                image: "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=400&h=300"
+            }
+        ];
+
+        // Render products
+        function renderProducts(items) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            
+            items.forEach(product => {
+                const card = `
+                    <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold text-lg">${product.name}</h3>
+                            <p class="text-teal-600 font-bold">روپے ${product.price}</p>
+                            <button class="mt-2 bg-teal-600 text-white px-4 py-2 rounded w-full hover:bg-teal-700">
+                                خریدیں
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // Initial render
+        renderProducts(products);
+
+        // Category filter
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+                const filtered = category === 'all' 
+                    ? products 
+                    : products.filter(p => p.category === category);
+                renderProducts(filtered);
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filtered);
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
